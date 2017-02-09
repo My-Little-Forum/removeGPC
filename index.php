@@ -12,4 +12,7 @@
 
 require_once "data/scripts/funcs.db.php";
 
+$errors = array();
+$settings = parse_ini_file("data/config/script.ini", TRUE);
+
 ?>
