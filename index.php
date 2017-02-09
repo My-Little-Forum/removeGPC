@@ -10,4 +10,6 @@
  * @license https://opensource.org/licenses/GPL-2.0  GNU Public License version 2
  */
 
+require_once "data/scripts/funcs.db.php";
+
 ?>
