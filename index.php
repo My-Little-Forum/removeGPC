@@ -15,4 +15,11 @@ require_once "data/scripts/funcs.db.php";
 $errors = array();
 $settings = parse_ini_file("data/config/script.ini", TRUE);
 
+$cid = dBase_Connect($settings['db']);
+
+if (is_array($cid) and $cid[0] === false) {
+	$errors[] = $cid[1];
+} else {
+}
+
 ?>
