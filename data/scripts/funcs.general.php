@@ -36,4 +36,33 @@ function writeTextFile($path, $content) {
 	}
 }
 
+
+/**
+ * prepare the settings array for saving
+ *
+ * takes the differnence between string and numeric values into account
+ *
+ * @param string $path
+ * @param array $set (source: $settings)
+ * @return boolean false on error
+ * @return boolean true on success
+ */
+function preprocessINI($path, $set) {
+	$r = false;
+	$l = array();
+	foreach ($set as $k => $v) {
+		if (is_array($v)) {
+			$l[] = '[' . $k . ']';
+			foreach ($v as $sk => $sv) {
+				$l[] = "$sk = " . (is_numeric($sv) ? $sv : '"' . $sv . '"');
+			}
+		} else {
+			$l[] = "$k = " . (is_numeric($v) ? $v : '"' . $v . '"');
+		}
+	}
+	$r = writeTextFile($path, implode("\r\n", $l));
+	if ($r !== false) return true;
+	return false;
+}
+
 ?>
