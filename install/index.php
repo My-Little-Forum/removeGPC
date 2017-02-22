@@ -55,6 +55,7 @@ if (empty($errors)) {
 # generate the output for the installation process
 if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$errors[] = 'The installation is already complete. Please <a href="../index.php">run the script</a> and check your database content.';
+	$page['Title'] = 'Installation is already complete';
 } else if ($insteps['step1'] === true and $insteps['step2'] === false) {
 	# the ini was rewritten, proceed with creating the database tables
 	$page['Title'] = 'Step 2: database tables';
