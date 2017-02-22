@@ -24,13 +24,13 @@ if (!is_writable($settingsfile)) {
 if (empty($errors)) {
 	# check, wich steps to take
 	$settings = parse_ini_file($settingsfile, TRUE);
-	if (array_key_exists('install')) {
+	if (array_key_exists('install', $settings)) {
 		# the settings section 'install' exists, the install script ran before
-		if (array_key_exists($settings['install']['step1'])
-			and array_key_exists($settings['install']['step2'])) {
+		if (array_key_exists('step1', $settings['install'])
+			and array_key_exists('step2', $settings['install'])) {
 			# installation is already complete
-		} else if (array_key_exists($settings['install']['step1'])
-			and !array_key_exists($settings['install']['step2'])) {
+		} else if (array_key_exists('step1', $settings['install'])
+			and !array_key_exists('step2', $settings['install'])) {
 			# step one was taken, step 2 is owing
 			$insteps['step1'] = true;
 			$insteps['step2'] = false;
