@@ -65,4 +65,16 @@ function preprocessINI($path, $set) {
 	return false;
 }
 
+
+/**
+ * encapsulated htmlspecialchars with the correct charset
+ *
+ * @param string $string
+ * @param string $charset
+ * @return string $string
+ */
+function htmlsc($string, $charset = 'ISO-8859-1') {
+	return htmlspecialchars($string, ENT_QUOTES, $charset, false);
+}
+
 ?>
