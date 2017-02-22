@@ -10,6 +10,9 @@
  * @license https://opensource.org/licenses/GPL-2.0  GNU Public License version 2
  */
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once "../data/scripts/funcs.db.php";
 $settingsfile = "../data/config/script.ini";
 
