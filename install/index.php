@@ -63,6 +63,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$page['Title'] = 'Step 1: database credentials and program settings';
 } else {
 	# an error occured, the array $insteps stores invalid values, let the script die
+	$errors[] = 'The installation process hangs in an undefined state.';
 	$page['Title'] = 'Error: undefined state of the installation process';
 }
 
