@@ -19,9 +19,12 @@ $settingsfile = "../data/config/script.ini";
 $errors = array();
 $settings = array();
 $insteps = array('step1' => true, 'step2' => true);
+$page = array('Title' => '', 'Content' => '', 'CSS' => '../data/style.css');
+$template = '';
 
 if (!is_writable($settingsfile)) {
 	$errors[] = "The file <code>data/config/script.ini</code> doesn't exist or is not writeable Check the presence and the file permissions of the file with your FTP client.";
+	$page['Title'] = 'Error: can\'t work with script.ini';
 }
 
 if (empty($errors)) {
@@ -54,10 +57,19 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$errors[] = 'The installation is already complete. Please <a href="../index.php">run the script</a> and check your database content.';
 } else if ($insteps['step1'] === true and $insteps['step2'] === false) {
 	# the ini was rewritten, proceed with creating the database tables
+	$page['Title'] = 'Step 2: database tables';
 } else if ($insteps['step1'] === false) {
 	# take the first step and let the user input the general settings
+	$page['Title'] = 'Step 1: database credentials and program settings';
 } else {
 	# an error occured, the array $insteps stores invalid values, let the script die
+	$page['Title'] = 'Error: undefined state of the installation process';
 }
+
+$template = file_get_contents('../data/main.tpl');
+$template = str_replace('[%URL2CSS%]', htmlspecialchars($page['CSS']), $template);
+$template = str_replace('[%PageTitle%]', htmlspecialchars($page['Title']), $template);
+$template = str_replace('[%PageContent%]', htmlspecialchars($page['Content']), $template);
+echo $template;
 
 ?>
