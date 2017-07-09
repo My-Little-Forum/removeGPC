@@ -23,8 +23,8 @@ $page = array('Title' => '', 'Content' => '', 'CSS' => '../data/style.css');
 $template = '';
 
 if (!is_writable($settingsfile)) {
-	$errors[] = "The file <code>data/config/script.ini</code> doesn't exist or is not writeable Check the presence and the file permissions of the file with your FTP client.";
-	$page['Title'] = 'Error: can\'t work with script.ini';
+	$errors[] = "The file <code>data/config/script.ini</code> doesn't exist or is not writeable. Check the presence and the file permissions of the file with your FTP client.";
+	$page['Title'] = "Error: can't work with script.ini";
 }
 
 if (empty($errors)) {
