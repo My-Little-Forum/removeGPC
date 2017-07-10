@@ -58,10 +58,10 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$page['Title'] = 'Installation is already complete';
 } else if ($insteps['step1'] === true and $insteps['step2'] === false) {
 	# the ini was rewritten, proceed with creating the database tables
-	$page['Title'] = 'Step 2: database tables';
+	$page['Title'] = 'Installation, step 2: database tables';
 } else if ($insteps['step1'] === false) {
 	# take the first step and let the user input the general settings
-	$page['Title'] = 'Step 1: database credentials and program settings';
+	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
 } else {
 	# an error occured, the array $insteps stores invalid values, let the script die
