@@ -13,4 +13,5 @@
        <input id="db-pass" name="db_pass" type="password" value="[InstDBPass]"></li>
      </ul>
     </fieldset>
+    <button>Send data</button>
    </form>
