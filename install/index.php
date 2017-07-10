@@ -62,6 +62,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 } else if ($insteps['step1'] === false) {
 	# take the first step and let the user input the general settings
 	$page['Title'] = 'Step 1: database credentials and program settings';
+	$page['Content'] = file_get_contents('../data/install.step1.tpl');
 } else {
 	# an error occured, the array $insteps stores invalid values, let the script die
 	$errors[] = 'The installation process hangs in an undefined state.';
@@ -71,7 +72,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 $template = file_get_contents('../data/main.tpl');
 $template = str_replace('[%URL2CSS%]', htmlspecialchars($page['CSS']), $template);
 $template = str_replace('[%PageTitle%]', htmlspecialchars($page['Title']), $template);
-$template = str_replace('[%PageContent%]', htmlspecialchars($page['Content']), $template);
+$template = str_replace('[%PageContent%]', $page['Content'], $template);
 echo $template;
 
 ?>
