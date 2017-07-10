@@ -1,0 +1,32 @@
+/* style rules for removeGPC */
+
+html {
+	margin: 0;
+	padding: 0;
+	font-size: 1.5rem;
+	color: #080808;
+	background: #fff;
+}
+
+body {
+	max-width: 45em;
+	margin: 0.5rem auto;
+	padding: 0;
+}
+
+h1 {
+	font-size: 1.4em;
+}
+
+h2 {
+	font-size: 1.2em;
+}
+
+h3, p, li, th, td, input, textarea, button {
+	font-size: 1em;
+}
+
+label {
+	display: inline-block;
+	width: 16em;
+}
