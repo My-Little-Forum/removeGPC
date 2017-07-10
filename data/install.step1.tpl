@@ -1,5 +1,5 @@
    <p>Enter the credentials for the database connection. Please use <strong>the same credentials</strong> as for your installation of <strong>My Little Forum 1.7.x</strong>.</p>
-   <form>
+   <form action="" method="post">
     <fieldset>
      <legend>Database connection data</legend>
      <ul>
