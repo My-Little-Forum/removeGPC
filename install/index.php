@@ -61,6 +61,16 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$page['Title'] = 'Installation, step 2: database tables';
 } else if ($insteps['step1'] === false) {
 	# take the first step and let the user input the general settings
+	# data for the acting user
+	$usr_name = (isset($_POST['usr_name']) and !empty($_POST['usr_name'])) ? $_POST['usr_name'] : NULL;
+	$usr_pass = (isset($_POST['usr_pass']) and !empty($_POST['usr_pass'])) ? $_POST['usr_pass'] : NULL;
+	# data for connecting with the database
+	$db_server = (isset($_POST['db_server']) and !empty($_POST['db_server'])) ? $_POST['db_server'] : NULL;
+	$db_name = (isset($_POST['db_name']) and !empty($_POST['db_name'])) ? $_POST['db_name'] : NULL;
+	$db_user = (isset($_POST['db_user']) and !empty($_POST['db_user'])) ? $_POST['db_user'] : NULL;
+	$db_pass = (isset($_POST['db_pass']) and !empty($_POST['db_pass'])) ? $_POST['db_pass'] : NULL;
+	# data for the data presentation layout
+	$op_entries_pp = (isset($_POST['op_entries_per_page']) and in_array($_POST['op_entries_per_page'], array(10, 15, 20, 25, 30, 35, 40, 45, 50))) ? $_POST['db_pass'] : 25;
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
 } else {
