@@ -19,7 +19,7 @@ $settingsfile = "../data/config/script.ini";
 $errors = array();
 $settings = array();
 $insteps = array('step1' => true, 'step2' => true);
-$page = array('Title' => '', 'Content' => '', 'CSS' => '../data/style.css');
+$page = array('Title' => '', 'Content' => '', 'CSS' => '../data/style.css', 'JS' => '../data/pages.js');
 $template = '';
 
 if (!is_writable($settingsfile)) {
@@ -71,6 +71,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 
 $template = file_get_contents('../data/main.tpl');
 $template = str_replace('[%URL2CSS%]', htmlspecialchars($page['CSS']), $template);
+$template = str_replace('[%URL2JS%]', htmlspecialchars($page['JS']), $template);
 $template = str_replace('[%PageTitle%]', htmlspecialchars($page['Title']), $template);
 $template = str_replace('[%PageContent%]', $page['Content'], $template);
 echo $template;

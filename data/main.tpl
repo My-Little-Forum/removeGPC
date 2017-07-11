@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>[%PageTitle%]</title>
   <link rel="stylesheet" href="[%URL2CSS%]">
+  <script src="[%URL2JS%]"></script>
  </head>
  <body>
   <header>
