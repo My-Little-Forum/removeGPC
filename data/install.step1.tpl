@@ -17,7 +17,7 @@
      <legend>Layout for data output</legend>
      <ul>
       <li><label for="op-entries-per-page">entries per page</label>
-       <input id="op-entries-per-page" name="op_entries_per_page" type="number" value="[%InstEntriesPage%]" placeholder="20"></li>
+       <input id="op-entries-per-page" name="op_entries_per_page" type="number" value="[%InstEntriesPage%]" min="10" max="50" step="5"></li>
      </ul>
     </fieldset>
     <p><button>Send data</button></p>
