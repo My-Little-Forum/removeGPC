@@ -88,7 +88,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$db_user = (isset($_POST['db_user']) and !empty($_POST['db_user'])) ? $_POST['db_user'] : NULL;
 	$db_pass = (isset($_POST['db_pass']) and !empty($_POST['db_pass'])) ? $_POST['db_pass'] : NULL;
 	# data for the data presentation layout
-	$op_entries_pp = (isset($_POST['op_entries_per_page']) and in_array($_POST['op_entries_per_page'], array(10, 15, 20, 25, 30, 35, 40, 45, 50))) ? $_POST['db_pass'] : 25;
+	$op_entries_pp = (isset($_POST['op_entries_per_page']) and in_array($_POST['op_entries_per_page'], array(10, 15, 20, 25, 30, 35, 40, 45, 50))) ? $_POST['op_entries_per_page'] : 25;
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
 	$page['Content'] = str_replace('[%InstUserName%]', htmlspecialchars($usr_name), $page['Content']);
