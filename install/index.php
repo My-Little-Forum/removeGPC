@@ -163,6 +163,9 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 			$errors[] = mysqli_error($conn);
 		}
 	}
+	if (empty($errors)) {
+		$insteps['step1'] = true;
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
