@@ -138,6 +138,22 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 			}
 		}
 	}
+	if (empty($errors)) {
+		# INI-file was written, create the database tables and store the additional settings to the database
+		$qCorrectionTables = "CREATE TABLE remGPC_Tables (dsID int AUTO_INCREMENT, nameTable varchar(255), checkTable set('0', '1') DEFAULT '0', PRIMARY KEY (dsID), KEY `nameTable` (`nameTable`)) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci";
+		$rCorrectionTables = dBase_Ask_Database($qCorrectionTables, $conn);
+		if ($rCorrectionTables === false) {
+			$errors[] = 'It was impossible to create the table for the tables to correct. Please report the error to the project maintainer.';
+			$errors[] = mysqli_error($conn);
+		} else {
+			$qTableNames = "INSERT INTO remGPC_Tables (nameTable) SELECT table_name FROM information_schema.tables WHERE table_schema = '". mysqli_real_escape_string($conn, $db_name) ."' AND table_type = 'BASE TABLE'";
+			$rTableNames = dBase_Ask_Database($qTableNames, $conn);
+			if ($rPutSettings === false) {
+				$errors[] = 'Could not write the table names to the database table.';
+				$errors[] = mysqli_error($conn);
+			}
+		}
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
