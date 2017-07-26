@@ -122,6 +122,22 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 			$errors[] = 'Could not write the settings to the INI-file.';
 		}
 	}
+	if (empty($errors)) {
+		# INI-file was written, create the database tables and store the additional settings to the database
+		$qSettingsTable = "CREATE TABLE remGPC_Settings (name varchar(50) NOT NULL, val varchar(30) DEFAULT NULL, type varchar(30) DEFAULT NULL, PRIMARY KEY (name)) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci";
+		$rSettingsTable = dBase_Ask_Database($qSettingsTable, $conn);
+		if ($rSettingsTable === false) {
+			$errors[] = 'It was impossible to create the settings table. Please report the error to the project maintainer.';
+			$errors[] = mysqli_error($conn);
+		} else {
+			$qPutSettings = "INSERT INTO remGPC_Settings VALUES ('datasets_per_page', ". intval($op_entries_pp) .", 'number'), ('user', '". mysqli_real_escape_string($conn, $usr_name) ."', 'text'), ('pass', '". mysqli_real_escape_string($conn, $usr_pass) ."', 'password'), ('textarea_x', 45, 'number'), ('textarea_y', 14, 'number')";
+			$rPutSettings = dBase_Ask_Database($qPutSettings, $conn);
+			if ($rPutSettings === false) {
+				$errors[] = 'Could not write the settings to the database table.';
+				$errors[] = mysqli_error($conn);
+			}
+		}
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
