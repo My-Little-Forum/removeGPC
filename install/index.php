@@ -154,6 +154,15 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 			}
 		}
 	}
+	if (empty($errors)) {
+		# INI-file was written, create the database tables and store the additional settings to the database
+		$qCorrectionFields = "CREATE TABLE remGPC_Fields (dsID int AUTO_INCREMENT, tableID int, nameField varchar(255), checkField set('0', '1') DEFAULT '0', PRIMARY KEY (dsID), KEY `nameField` (`nameField`)) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci";
+		$rCorrectionFields = dBase_Ask_Database($qCorrectionFields, $conn);
+		if ($rCorrectionFields === false) {
+			$errors[] = 'It was impossible to create the table for the fields to correct. Please report the error to the project maintainer.';
+			$errors[] = mysqli_error($conn);
+		}
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
