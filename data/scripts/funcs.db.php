@@ -20,7 +20,7 @@ function dBase_Connect($db) {
 	if (function_exists('mysqli_connect')) {
 		$s = @mysqli_connect($db['server'], $db['user'], $db['pass'], $db['name']);
 		if ($s === false) return array(false, mysqli_connect_error());
-		$u = @mysqli_set_charset($s, 'ISO-8859-1');
+		$u = @mysqli_set_charset($s, 'UTF8');
 		if ($u === false) return array(false, mysqli_error($s));
 	}
 	return $s;
