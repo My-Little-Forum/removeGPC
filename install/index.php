@@ -107,6 +107,21 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 			$errors[] = $conn[1];
 		}
 	}
+	if (empty($errors)) {
+		# test of the database connection was successful, write the informations to the ini-file.
+		$iniContent  = "; script.ini\n";
+		$iniContent .= ";\n\n[db]\n";
+		$iniContent .= "server = '". $db_server ."'\n";
+		$iniContent .= "user = '". $db_name ."'\n";
+		$iniContent .= "pass = '". $db_user ."'\n";
+		$iniContent .= "name = '". $db_pass ."'\n";
+		$iniContent .= "\n[install]\n";
+		$iniContent .= "step1 = true\n";
+		$iniWritten = file_put_contents($settingsfile, $iniContent, LOCK_EX);
+		if ($iniWritten === false) {
+			$errors[] = 'Could not write the settings to the INI-file.';
+		}
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
