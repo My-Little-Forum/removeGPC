@@ -44,11 +44,29 @@ if (empty($errors)) {
 			# no taken steps registered, start installation script from the beginning
 			$insteps['step1'] = false;
 			$insteps['step2'] = false;
+			$usr_name = NULL;
+			$usr_pass = NULL;
+			# data for connecting with the database
+			$db_server = NULL;
+			$db_name = NULL;
+			$db_user = NULL;
+			$db_pass = NULL;
+			# data for the data presentation layout
+			$op_entries_pp = 25;
 		}
 	} else {
 		# no taken steps registered, start installation script from the beginning
 		$insteps['step1'] = false;
 		$insteps['step2'] = false;
+		$usr_name = NULL;
+		$usr_pass = NULL;
+		# data for connecting with the database
+		$db_server = NULL;
+		$db_name = NULL;
+		$db_user = NULL;
+		$db_pass = NULL;
+		# data for the data presentation layout
+		$op_entries_pp = 25;
 	}
 }
 
@@ -73,6 +91,13 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$op_entries_pp = (isset($_POST['op_entries_per_page']) and in_array($_POST['op_entries_per_page'], array(10, 15, 20, 25, 30, 35, 40, 45, 50))) ? $_POST['db_pass'] : 25;
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
+	$page['Content'] = str_replace('[%InstUserName%]', htmlspecialchars($usr_name), $page['Content']);
+	$page['Content'] = str_replace('[%InstUserPass%]', htmlspecialchars($usr_pass), $page['Content']);
+	$page['Content'] = str_replace('[%InstDBServer%]', htmlspecialchars($db_server), $page['Content']);
+	$page['Content'] = str_replace('[%InstDBName%]', htmlspecialchars($db_name), $page['Content']);
+	$page['Content'] = str_replace('[%InstDBUser%]', htmlspecialchars($db_user), $page['Content']);
+	$page['Content'] = str_replace('[%InstDBPass%]', htmlspecialchars($db_pass), $page['Content']);
+	$page['Content'] = str_replace('[%InstEntriesPage%]', htmlspecialchars($op_entries_pp), $page['Content']);
 } else {
 	# an error occured, the array $insteps stores invalid values, let the script die
 	$errors[] = 'The installation process hangs in an undefined state.';
