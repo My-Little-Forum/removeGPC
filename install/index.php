@@ -70,15 +70,6 @@ if (empty($errors)) {
 	}
 }
 
-# generate the output for the installation process
-if ($insteps['step1'] === true and $insteps['step2'] === true) {
-	$errors[] = 'The installation is already complete. Please <a href="../index.php">run the script</a> and check your database content.';
-	$page['Title'] = 'Installation is already complete';
-} else if ($insteps['step1'] === true and $insteps['step2'] === false) {
-	# the ini was rewritten, proceed with creating the database tables
-	$page['Title'] = 'Installation, step 2: database tables';
-} else if ($insteps['step1'] === false) {
-	# take the first step and let the user input the general settings
 # proceed the form data, when given
 if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 	# data for the acting user
@@ -167,6 +158,16 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 		$insteps['step1'] = true;
 	}
 }
+
+# generate the output for the installation process
+if ($insteps['step1'] === true and $insteps['step2'] === true) {
+	$errors[] = 'The installation is already complete. Please <a href="../index.php">run the script</a> and check your database content.';
+	$page['Title'] = 'Installation is already complete';
+} else if ($insteps['step1'] === true and $insteps['step2'] === false) {
+	# the ini was rewritten, proceed with creating the database tables
+	$page['Title'] = 'Installation, step 2: database tables';
+} else if ($insteps['step1'] === false) {
+	# take the first step and let the user input the general settings
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
 	$page['Content'] = str_replace('[%InstUserName%]', htmlspecialchars($usr_name), $page['Content']);
