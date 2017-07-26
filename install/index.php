@@ -98,6 +98,19 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$page['Content'] = str_replace('[%InstDBUser%]', htmlspecialchars($db_user), $page['Content']);
 	$page['Content'] = str_replace('[%InstDBPass%]', htmlspecialchars($db_pass), $page['Content']);
 	$page['Content'] = str_replace('[%InstEntriesPage%]', htmlspecialchars($op_entries_pp), $page['Content']);
+	if (!empty($errors)) {
+		$errorMess  = '   <section id="errormessages">'."\n";
+		$errorMess .= '    <h2>Errors</h2>'."\n";
+		$errorMess .= '    <ul>'."\n";
+		foreach ($errors as $error) {
+			$errorMess .= '     <li>'. htmlspecialchars($error) .'</li>'."\n";
+		}
+		$errorMess .= '    </ul>'."\n";
+		$errorMess .= '   </section>'."\n";
+	} else {
+		$errorMess = '';
+	}
+	$page['Content'] = str_replace('[%InstErrors%]', $errorMess, $page['Content']);
 } else {
 	# an error occured, the array $insteps stores invalid values, let the script die
 	$errors[] = 'The installation process hangs in an undefined state.';
