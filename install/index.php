@@ -91,6 +91,10 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 	$db_pass = (isset($_POST['db_pass']) and !empty($_POST['db_pass'])) ? $_POST['db_pass'] : NULL;
 	# data for the data presentation layout
 	$op_entries_pp = (isset($_POST['op_entries_per_page']) and in_array($_POST['op_entries_per_page'], array(10, 15, 20, 25, 30, 35, 40, 45, 50))) ? $_POST['op_entries_per_page'] : 25;
+	if ($usr_name === NULL or $usr_pass === NULL) {
+		# user credentials incomplete
+		$errors[] = 'The user credentials are incomplete. Either the user name or the password is missing.';
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
