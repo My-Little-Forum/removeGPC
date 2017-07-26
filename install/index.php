@@ -99,6 +99,14 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 		# database credentials incomplete
 		$errors[] = 'A ful set of server name, database name, database user name and password is necessary to access the database. One or more of these informations are absent.';
 	}
+	if (empty($errors)) {
+		# data complete, test the database connection
+		$conn = dBase_connect(array('server' => $db_server, 'name' => $db_name, 'user' => $db_user, 'pass' => $db_pass));
+		if (is_array($conn) and $conn[0] === false) {
+			$errors[] = 'Could not connect to the database with the given credentials.';
+			$errors[] = $conn[1];
+		}
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
