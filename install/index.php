@@ -95,6 +95,10 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 		# user credentials incomplete
 		$errors[] = 'The user credentials are incomplete. Either the user name or the password is missing.';
 	}
+	if ($db_server === NULL or $db_name === NULL or $db_user === NULL or $db_pass === NULL) {
+		# database credentials incomplete
+		$errors[] = 'A ful set of server name, database name, database user name and password is necessary to access the database. One or more of these informations are absent.';
+	}
 }
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
 	$page['Content'] = file_get_contents('../data/install.step1.tpl');
