@@ -103,9 +103,9 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 		$iniContent  = "; script.ini\n";
 		$iniContent .= ";\n\n[db]\n";
 		$iniContent .= "server = '". $db_server ."'\n";
-		$iniContent .= "user = '". $db_name ."'\n";
-		$iniContent .= "pass = '". $db_user ."'\n";
-		$iniContent .= "name = '". $db_pass ."'\n";
+		$iniContent .= "user = '". $db_user ."'\n";
+		$iniContent .= "pass = '". $db_pass ."'\n";
+		$iniContent .= "name = '". $db_name ."'\n";
 		$iniContent .= "\n[install]\n";
 		$iniContent .= "step1 = true\n";
 		$iniWritten = file_put_contents($settingsfile, $iniContent, LOCK_EX);
