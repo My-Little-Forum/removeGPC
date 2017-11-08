@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Installation script for removeGPC.
+ * Installation script for removeGPC
  *
  * @package removeGPC
  * @author H. August <post@auge8472.de>
@@ -164,8 +164,47 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 	$errors[] = 'The installation is already complete. Please <a href="../index.php">run the script</a> and check your database content.';
 	$page['Title'] = 'Installation is already complete';
 } else if ($insteps['step1'] === true and $insteps['step2'] === false) {
-	# the ini was rewritten, proceed with creating the database tables
-	$page['Title'] = 'Installation, step 2: database tables';
+	$page['Content'] = file_get_contents('../data/install.step2.tpl');
+	# the ini was rewritten, proceed with configuring the script, select tables to check
+	$conn = dBase_connect($settings['db']);
+	if (is_array($conn) and $conn[0] === false) {
+		$errors[] = 'The database could not be opened. Please report the error to the project maintainer.';
+		$errors[] = $conn[1];
+	} else {
+		# read table data from the config table
+		$qTableList = "SELECT dsID, nameTable FROM remGPC_Tables ORDER BY nameTable ASC";
+		$rTableList = dBase_Ask_Database($qTableList, $conn);
+		if ($rTableList === false) {
+			$errors[] = 'The list of Tables could not be read from the database. Please report the error to the project maintainer.';
+			$page['Content'] = str_replace('[%InstTableList%]', '', $page['Content']);
+		} else {
+			$t = 0;
+			$tListList = array();
+			$tListTempl = '      <li><input id="table_[%InstTNS%]" name="tables" type="checkbox"><label for="table_[%InstTNS%]">[%InstTableListName%]</label></li>';
+			foreach ($rTableList as $row) {
+				$tListList[$t] = $tListTempl;
+				$tListList[$t] = str_replace('[%InstTNS%]', htmlspecialchars($row['dsID']), $tListList[$t]);
+				$tListList[$t] = str_replace('[%InstTableListName%]', htmlspecialchars($row['nameTable']), $tListList[$t]);
+				$t++;
+			}
+			$page['Title'] = 'Installation, step 2: database tables';
+			$tListList = join("\n", $tListList);
+			$page['Content'] = str_replace('[%InstTableList%]', $tListList, $page['Content']);
+		}
+	}
+	if (!empty($errors)) {
+		$errorMess  = '   <section id="errormessages">'."\n";
+		$errorMess .= '    <h2>Errors</h2>'."\n";
+		$errorMess .= '    <ul>'."\n";
+		foreach ($errors as $error) {
+			$errorMess .= '     <li>'. htmlspecialchars($error) .'</li>'."\n";
+		}
+		$errorMess .= '    </ul>'."\n";
+		$errorMess .= '   </section>'."\n";
+	} else {
+		$errorMess = '';
+	}
+	$page['Content'] = str_replace('[%InstErrors%]', $errorMess, $page['Content']);
 } else if ($insteps['step1'] === false) {
 	# take the first step and let the user input the general settings
 	$page['Title'] = 'Installation, step 1: database credentials and program settings';
