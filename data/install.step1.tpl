@@ -1,9 +1,9 @@
    [%InstErrors%]
    <section>
-    <p>Enter the credentials for the database connection. Please use <strong>the same credentials</strong> as for your installation of <strong>My Little Forum 1.7.x</strong>.</p>
+    <p>Enter the credentials for the script login and for the database connection. Please use <strong>the same database</strong> and <strong>the same database credentials</strong> as for your installation of <strong>My Little Forum 1.7.x</strong>.</p>
     <form action="" method="post">
      <fieldset>
-      <legend>User login data</legend>
+      <legend>User login data for the script removeGPC</legend>
       <ul>
        <li><label for="usr-name">login name</label>
         <input id="usr-name" name="usr_name" type="text" value="[%InstUserName%]" placeholder="Your Login Name"></li>
