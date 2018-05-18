@@ -22,10 +22,15 @@ or !array_key_exists('step2', $settings['install'])))) {
 	exit;
 }
 
-$cid = dBase_Connect($settings['db']);
+if (file_exists('install/index.php')) {
+	$errors[] = 'Please remove the installation script from the server. You find the mentioned file "index.php" in the directory "install". The program will not work until the script was removed from the server.';
+}
 
-if (is_array($cid) and $cid[0] === false) {
-	$errors[] = $cid[1];
+if (empty($errors)) {
+	$cid = dBase_Connect($settings['db']);
+	if (is_array($cid) and $cid[0] === false) {
+		$errors[] = $cid[1];
+	}
 }
 if (empty($errors)) {
 }
