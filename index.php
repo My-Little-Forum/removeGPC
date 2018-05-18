@@ -11,9 +11,10 @@
  */
 
 require_once "data/scripts/funcs.db.php";
+$settingsfile = "data/config/script.ini";
 
 $errors = array();
-$settings = parse_ini_file("data/config/script.ini", TRUE);
+$settings = parse_ini_file($settingsfile, TRUE);
 
 if (!array_key_exists('install', $settings) or (array_key_exists('install', $settings) and(!array_key_exists('step1', $settings['install'])
 or !array_key_exists('step2', $settings['install'])))) {
