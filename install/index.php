@@ -211,6 +211,15 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 		$errors[] = 'You have not selected any table name for checking of its content.';
 	}
 	if (empty($errors)) {
+		# test of the database connection was successful, write the informations to the ini-file.
+		$iniContent = file_get_contents($settingsfile);
+		$iniContent = $iniContent . "step2 = true\n";
+		$iniWritten = file_put_contents($settingsfile, $iniContent, LOCK_EX);
+		if ($iniWritten === false) {
+			$errors[] = 'Could not write the settings to the INI-file.';
+		}
+	}
+	if (empty($errors)) {
 		$insteps['step1'] = true;
 		$insteps['step2'] = true;
 	}
