@@ -14,6 +14,7 @@ require_once "data/scripts/funcs.db.php";
 $settingsfile = "data/config/script.ini";
 
 $errors = array();
+$settings = array();
 $page = array('Title' => '', 'Content' => '', 'CSS' => 'data/style.css', 'JS' => 'data/pages.js');
 $template = '';
 
