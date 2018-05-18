@@ -14,6 +14,9 @@ require_once "data/scripts/funcs.db.php";
 $settingsfile = "data/config/script.ini";
 
 $errors = array();
+$page = array('Title' => '', 'Content' => '', 'CSS' => 'data/style.css', 'JS' => 'data/pages.js');
+$template = '';
+
 $settings = parse_ini_file($settingsfile, TRUE);
 
 if (!array_key_exists('install', $settings) or (array_key_exists('install', $settings) and(!array_key_exists('step1', $settings['install'])
@@ -39,5 +42,12 @@ if (empty($errors)) {
 }
 if (empty($errors)) {
 }
+
+$template = file_get_contents('data/main.tpl');
+$template = str_replace('[%URL2CSS%]', htmlspecialchars($page['CSS']), $template);
+$template = str_replace('[%URL2JS%]', htmlspecialchars($page['JS']), $template);
+$template = str_replace('[%PageTitle%]', htmlspecialchars($page['Title']), $template);
+$template = str_replace('[%PageContent%]', $page['Content'], $template);
+echo $template;
 
 ?>
