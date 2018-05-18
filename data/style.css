@@ -1,4 +1,7 @@
 /* style rules for removeGPC */
+* {
+	box-sizing: border-box;
+}
 
 html {
 	margin: 0;
