@@ -189,6 +189,14 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 			$errors[] = $conn[1];
 		}
 		if (empty($errors)) {
+			$qResetTables = "UPDATE remGPC_Tables SET checkTable = 0";
+			$rResetTables = dBase_Ask_Database($qResetTables, $conn);
+			if ($rResetTables === false) {
+				$errors[] = 'It was impossible to reset the information about the tables in the database.';
+				$errors[] = mysqli_error($conn);
+			}
+		}
+		if (empty($errors)) {
 			foreach ($_POST['tables'] as $table) {
 				$qChooseTable = NULL;
 				$qChooseTable = "UPDATE remGPC_Tables SET checkTable = 1 WHERE dsID = ". intval($table);
