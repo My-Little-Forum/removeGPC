@@ -25,6 +25,10 @@ or !array_key_exists('step2', $settings['install'])))) {
 if (file_exists('install/index.php')) {
 	$errors[] = 'Please remove the installation script from the server. You find the mentioned file "index.php" in the directory "install". The program will not work until the script was removed from the server.';
 }
+if (is_writable($settingsfile)) {
+	$errors[] = "The file <code>data/config/script.ini</code> is writeable. This is a security flaw. The program will not work until this issue is solved. Please check the file permissions of the file with your FTP client.";
+	$page['Title'] = "Error: can't work with a writeable script.ini";
+}
 
 if (empty($errors)) {
 	$cid = dBase_Connect($settings['db']);
