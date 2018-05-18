@@ -117,7 +117,7 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 		# INI-file was written
 		# reread the settings to ensure the use of the stored values
 		$settings = parse_ini_file($settingsfile, TRUE);
-		if (array_key_exists($settings['db']) and array_key_exists($settings['db']['server']) and array_key_exists($settings['db']['name']) and array_key_exists($settings['db']['user']) and array_key_exists($settings['db']['pass'])) {
+		if (array_key_exists('db', $settings) and array_key_exists('server', $settings['db']) and array_key_exists('name', $settings['db']) and array_key_exists('user', $settings['db']) and array_key_exists('pass', $settings['db'])) {
 			$db_server = $settings['db']['server'];
 			$db_name = $settings['db']['name'];
 			$db_user = $settings['db']['user'];
