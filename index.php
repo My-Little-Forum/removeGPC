@@ -15,8 +15,8 @@ require_once "data/scripts/funcs.db.php";
 $errors = array();
 $settings = parse_ini_file("data/config/script.ini", TRUE);
 
-if (!array_key_exists('install', $settings) or (array_key_exists('step1', $settings['install'])
-or array_key_exists('step2', $settings['install']))) {
+if (!array_key_exists('install', $settings) or (array_key_exists('install', $settings) and(!array_key_exists('step1', $settings['install'])
+or !array_key_exists('step2', $settings['install'])))) {
 	#the installation was not performed yet or is not finished
 	header('Location: install/index.php');
 	exit;
