@@ -44,6 +44,21 @@ if (empty($errors)) {
 if (empty($errors)) {
 }
 
+if (!empty($errors)) {
+	$page['Content'] = file_get_contents('data/run.errors.tpl');
+	$errorMess  = '   <section id="errormessages">'."\n";
+	$errorMess .= '    <h2>Errors</h2>'."\n";
+	$errorMess .= '    <ul>'."\n";
+	foreach ($errors as $error) {
+		$errorMess .= '     <li>'. htmlspecialchars($error) .'</li>'."\n";
+	}
+	$errorMess .= '    </ul>'."\n";
+	$errorMess .= '   </section>'."\n";
+} else {
+	$errorMess = '';
+}
+$page['Content'] = str_replace('[%RunErrors%]', $errorMess, $page['Content']);
+
 $template = file_get_contents('data/main.tpl');
 $template = str_replace('[%URL2CSS%]', htmlspecialchars($page['CSS']), $template);
 $template = str_replace('[%URL2JS%]', htmlspecialchars($page['JS']), $template);
