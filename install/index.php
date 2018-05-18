@@ -189,7 +189,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 			$errors[] = $conn[1];
 		}
 		if (empty($errors)) {
-			$qResetTables = "UPDATE remGPC_Tables SET checkTable = 0";
+			$qResetTables = "UPDATE remGPC_Tables SET checkTable = '0'";
 			$rResetTables = dBase_Ask_Database($qResetTables, $conn);
 			if ($rResetTables === false) {
 				$errors[] = 'It was impossible to reset the information about the tables in the database.';
@@ -199,7 +199,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 		if (empty($errors)) {
 			foreach ($_POST['tables'] as $table) {
 				$qChooseTable = NULL;
-				$qChooseTable = "UPDATE remGPC_Tables SET checkTable = 1 WHERE dsID = ". intval($table);
+				$qChooseTable = "UPDATE remGPC_Tables SET checkTable = '1' WHERE dsID = ". intval($table);
 				$rChooseTable = dBase_Ask_Database($qChooseTable, $conn);
 				if ($rChooseTable === false) {
 					$errors[] = 'It was impossible to store the information about the choosed table in the database.';
