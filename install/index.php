@@ -171,6 +171,42 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 		$insteps['step1'] = true;
 	}
 }
+if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST['send_step2'])) {
+	# the user selected the tables to check
+	if (array_key_exists('db', $settings) and array_key_exists('server', $settings['db']) and array_key_exists('name', $settings['db']) and array_key_exists('user', $settings['db']) and array_key_exists('pass', $settings['db'])) {
+		$db_server = $settings['db']['server'];
+		$db_name = $settings['db']['name'];
+		$db_user = $settings['db']['user'];
+		$db_pass = $settings['db']['pass'];
+	} else {
+		$errors[] = 'Could not read the values of the database connection from the INI even the installation script stated to have them written to the file. Plese check the file data/config/script.ini to be writeable. Please report the error to the project maintainer otherwise.';
+	}
+	if (empty($errors) and !empty($_POST['tables']) and is_array($_POST['tables'])) {
+		# data complete, test the database connection
+		$conn = dBase_connect(array('server' => $db_server, 'name' => $db_name, 'user' => $db_user, 'pass' => $db_pass));
+		if (is_array($conn) and $conn[0] === false) {
+			$errors[] = 'Could not connect to the database with the given credentials.';
+			$errors[] = $conn[1];
+		}
+		if (empty($errors)) {
+			foreach ($_POST['tables'] as $table) {
+				$qChooseTable = NULL;
+				$qChooseTable = "UPDATE remGPC_Tables SET checkTable = 1 WHERE nameTable = '". mysqli_real_escape_string($conn, $table) ."'";
+				$rChooseTable = dBase_Ask_Database($qChooseTable, $conn);
+				if ($rChooseTable === false) {
+					$errors[] = 'It was impossible to store the information about the choosed table in the database.';
+					$errors[] = mysqli_error($conn);
+				}
+			}
+		}
+	} else {
+		$errors[] = 'You have not selected any table name for checking of its content.';
+	}
+	if (empty($errors)) {
+		$insteps['step1'] = true;
+		$insteps['step2'] = true;
+	}
+}
 
 # generate the output for the installation process
 if ($insteps['step1'] === true and $insteps['step2'] === true) {
