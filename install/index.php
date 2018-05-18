@@ -191,7 +191,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 		if (empty($errors)) {
 			foreach ($_POST['tables'] as $table) {
 				$qChooseTable = NULL;
-				$qChooseTable = "UPDATE remGPC_Tables SET checkTable = 1 WHERE nameTable = '". mysqli_real_escape_string($conn, $table) ."'";
+				$qChooseTable = "UPDATE remGPC_Tables SET checkTable = 1 WHERE dsID = ". intval($table);
 				$rChooseTable = dBase_Ask_Database($qChooseTable, $conn);
 				if ($rChooseTable === false) {
 					$errors[] = 'It was impossible to store the information about the choosed table in the database.';
@@ -229,7 +229,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 		} else {
 			$t = 0;
 			$tListList = array();
-			$tListTempl = '      <li><input id="table_[%InstTNS%]" name="tables[]" value="[%InstTableListName%]" type="checkbox"><label for="table_[%InstTNS%]">[%InstTableListName%]</label></li>';
+			$tListTempl = '      <li><input id="table_[%InstTNS%]" name="tables[]" value="[%InstTNS%]" type="checkbox"><label for="table_[%InstTNS%]">[%InstTableListName%]</label></li>';
 			foreach ($rTableList as $row) {
 				$tListList[$t] = $tListTempl;
 				$tListList[$t] = str_replace('[%InstTNS%]', htmlspecialchars($row['dsID']), $tListList[$t]);
