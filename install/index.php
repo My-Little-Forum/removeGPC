@@ -227,8 +227,45 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 
 # generate the output for the installation process
 if ($insteps['step1'] === true and $insteps['step2'] === true) {
-	$errors[] = 'The installation is already complete. Please <a href="../index.php">run the script</a> and check your database content.';
+	$page['Content'] = file_get_contents('../data/install.done.tpl');
 	$page['Title'] = 'Installation is already complete';
+	$conn = dBase_connect($settings['db']);
+	if (is_array($conn) and $conn[0] === false) {
+		$errors[] = 'The database could not be opened. Please report the error to the project maintainer.';
+		$errors[] = $conn[1];
+	} else {
+		# read table data from the config table
+		$qTableList = "SELECT nameTable FROM remGPC_Tables WHERE checkTable = '1' ORDER BY nameTable ASC";
+		$rTableList = dBase_Ask_Database($qTableList, $conn);
+		if ($rTableList === false) {
+			$errors[] = 'The list of Tables could not be read from the database. Please report the error to the project maintainer.';
+			$page['Content'] = str_replace('[%InstTableList%]', '', $page['Content']);
+		} else {
+			$t = 0;
+			$tListList = array();
+			$tListTempl = '      <li><span class="table-names">[%InstTableListName%]</span></li>';
+			foreach ($rTableList as $row) {
+				$tListList[$t] = $tListTempl;
+				$tListList[$t] = str_replace('[%InstTableListName%]', htmlspecialchars($row['nameTable']), $tListList[$t]);
+				$t++;
+			}
+			$tListList = join("\n", $tListList);
+			$page['Content'] = str_replace('[%InstTableList%]', $tListList, $page['Content']);
+		}
+	}
+	if (!empty($errors)) {
+		$errorMess  = '   <section id="errormessages">'."\n";
+		$errorMess .= '    <h2>Errors</h2>'."\n";
+		$errorMess .= '    <ul>'."\n";
+		foreach ($errors as $error) {
+			$errorMess .= '     <li>'. htmlspecialchars($error) .'</li>'."\n";
+		}
+		$errorMess .= '    </ul>'."\n";
+		$errorMess .= '   </section>'."\n";
+	} else {
+		$errorMess = '';
+	}
+	$page['Content'] = str_replace('[%InstErrors%]', $errorMess, $page['Content']);
 } else if ($insteps['step1'] === true and $insteps['step2'] === false) {
 	$page['Content'] = file_get_contents('../data/install.step2.tpl');
 	# the ini was rewritten, proceed with configuring the script, select tables to check
