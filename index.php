@@ -27,9 +27,6 @@ $cid = dBase_Connect($settings['db']);
 if (is_array($cid) and $cid[0] === false) {
 	$errors[] = $cid[1];
 }
-if (empty($errors) and (!is_array($settings['tables']) or empty($settings['tables']))) {
-}
-
 if (empty($errors)) {
 }
 
