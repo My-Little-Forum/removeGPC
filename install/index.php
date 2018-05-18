@@ -180,7 +180,7 @@ if ($insteps['step1'] === true and $insteps['step2'] === true) {
 		} else {
 			$t = 0;
 			$tListList = array();
-			$tListTempl = '      <li><input id="table_[%InstTNS%]" name="tables[]" type="checkbox"><label for="table_[%InstTNS%]">[%InstTableListName%]</label></li>';
+			$tListTempl = '      <li><input id="table_[%InstTNS%]" name="tables[]" value="[%InstTableListName%]" type="checkbox"><label for="table_[%InstTNS%]">[%InstTableListName%]</label></li>';
 			foreach ($rTableList as $row) {
 				$tListList[$t] = $tListTempl;
 				$tListList[$t] = str_replace('[%InstTNS%]', htmlspecialchars($row['dsID']), $tListList[$t]);
