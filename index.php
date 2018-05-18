@@ -17,6 +17,7 @@ $errors = array();
 $settings = array();
 $page = array('Title' => '', 'Content' => '', 'CSS' => 'data/style.css', 'JS' => 'data/pages.js');
 $template = '';
+session_start();
 
 $settings = parse_ini_file($settingsfile, TRUE);
 
@@ -42,6 +43,10 @@ if (empty($errors)) {
 	}
 }
 if (empty($errors)) {
+	if (!isset($_SESSION['user_name'])) {
+		$page['Content'] = file_get_contents('data/run.login.tpl');
+		$page['title'] = 'Login for removeGPC';
+	}
 }
 
 if (!empty($errors)) {
