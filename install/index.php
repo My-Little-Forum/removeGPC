@@ -128,7 +128,7 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 	}
 	if (empty($errors)) {
 		# create the database tables and store the additional settings to the database
-		$qSettingsTable = "CREATE TABLE remGPC_Settings (name varchar(50) NOT NULL, val varchar(30) DEFAULT NULL, type varchar(30) DEFAULT NULL, PRIMARY KEY (name)) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci";
+		$qSettingsTable = "CREATE TABLE remGPC_Settings (name varchar(50) NOT NULL, val varchar(255) DEFAULT NULL, type varchar(30) DEFAULT NULL, PRIMARY KEY (name)) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci";
 		$rSettingsTable = dBase_Ask_Database($qSettingsTable, $conn);
 		if ($rSettingsTable === false) {
 			$errors[] = 'It was impossible to create the settings table. Please report the error to the project maintainer.';
