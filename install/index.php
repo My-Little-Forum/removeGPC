@@ -134,7 +134,8 @@ if ($insteps['step1'] === false and isset($_POST['send_step1'])) {
 			$errors[] = 'It was impossible to create the settings table. Please report the error to the project maintainer.';
 			$errors[] = mysqli_error($conn);
 		} else {
-			$qPutSettings = "INSERT INTO remGPC_Settings VALUES ('datasets_per_page', ". intval($op_entries_pp) .", 'number'), ('user', '". mysqli_real_escape_string($conn, $usr_name) ."', 'text'), ('pass', '". mysqli_real_escape_string($conn, $usr_pass) ."', 'password'), ('textarea_x', 45, 'number'), ('textarea_y', 14, 'number')";
+			$usr_passc = password_hash($usr_pass, PASSWORD_DEFAULT, array('cost' => 12));
+			$qPutSettings = "INSERT INTO remGPC_Settings VALUES ('datasets_per_page', ". intval($op_entries_pp) .", 'number'), ('user', '". mysqli_real_escape_string($conn, $usr_name) ."', 'text'), ('pass', '". mysqli_real_escape_string($conn, $usr_passc) ."', 'password'), ('textarea_x', 45, 'number'), ('textarea_y', 14, 'number')";
 			$rPutSettings = dBase_Ask_Database($qPutSettings, $conn);
 			if ($rPutSettings === false) {
 				$errors[] = 'Could not write the settings to the database table.';
