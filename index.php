@@ -42,6 +42,19 @@ if (empty($errors)) {
 		$errors[] = $cid[1];
 	}
 }
+
+if (empty($errors)) {
+	$qReadSettings = "SELECT name, val FROM remGPC_Settings";
+	$rSettings = dBase_Ask_Database($qReadSettings, $cid);
+	if (is_array($cid) and $cid[0] === false) {
+		$errors[] = $cid[1];
+	} else {
+		foreach ($rSettings as $line) {
+			$settings[$line['name']] = $line['value'];
+		}
+	}
+}
+
 if (empty($errors)) {
 	if (!isset($_SESSION['user_name'])) {
 		$page['Content'] = file_get_contents('data/run.login.tpl');
