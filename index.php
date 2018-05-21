@@ -68,7 +68,7 @@ if (isset($_POST['send_credentials']) and isset($_POST['usr_2arks']) and isset($
 if (empty($errors)) {
 	if (!isset($_SESSION['valid_user'])) {
 		$page['Content'] = file_get_contents('data/run.login.tpl');
-		$page['title'] = 'Login for removeGPC';
+		$page['Title'] = 'Login for removeGPC';
 	}
 }
 
