@@ -55,6 +55,16 @@ if (empty($errors)) {
 	}
 }
 
+if (isset($_POST['send_credentials']) and isset($_POST['usr_2arks']) and isset($_POST['usr_murks'])) {
+	if ($_POST['usr_2arks'] === $settings['user'] and password_verify($_POST['usr_murks'], $settings['pass']) === true) {
+		$_SESSION['valid_user'] = true;
+	} else {
+		if (isset($_SESSION['valid_user'])) {
+			unset($_SESSION['valid_user']);
+		}
+	}
+}
+
 if (empty($errors)) {
 	if (!isset($_SESSION['user_name'])) {
 		$page['Content'] = file_get_contents('data/run.login.tpl');
