@@ -208,6 +208,36 @@ if ($insteps['step1'] === true and $insteps['step2'] === false and isset($_POST[
 				}
 			}
 		}
+		if (empty($errors)) {
+			# read fields with text content from the chosen tables
+			$qChosenTables = "SELECT dsID, nameTable FROM remGPC_Tables WHERE checkTable = '1'";
+			$rChosenTables = dBase_Ask_Database($qChosenTables, $conn);
+			if ($rChosenTables === false) {
+				$errors[] = 'It was impossible to read the table names from the database.';
+				$errors[] = mysqli_error($conn);
+			} else {
+				foreach ($rChosenTables as $chosenTable) {
+					#$errors[] = '<pre>'. print_r($chosenTable, true) .'</pre>';
+					
+					$qAffectedFields = "SHOW COLUMNS FROM ". mysqli_real_escape_string($conn, $chosenTable['nameTable']) ." WHERE Type = 'text' OR Type LIKE '%char%'";
+					$rAffectedFields = dBase_Ask_Database($qAffectedFields, $conn);
+					if ($rAffectedFields === false) {
+						$errors[] = 'It was impossible to read the column names for table "'. $chosenTable['nameTable'] .'" from the database.';
+					} else {
+						foreach ($rAffectedFields as $listField) {
+							$qNoticeFields = "INSERT INTO remGPC_Fields (tableID, nameField)
+								VALUES (". intval($chosenTable['dsID']) .", '". mysqli_real_escape_string($conn, $listField['Field']) ."')";
+							$rNoticeFields = dBase_Ask_Database($qNoticeFields, $conn);
+							if ($rNoticeFields === false) {
+								$errors[] = 'It was impossible to create the entry for table "'. $chosenTable['nameTable'] .'", column "'. $listField['Field'] .'".';
+								$errors[] = mysqli_error($conn);
+							}
+						}
+					}
+					
+				}
+			}
+		}
 	} else {
 		$errors[] = 'You have not selected any table name for checking of its content.';
 	}
