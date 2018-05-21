@@ -46,8 +46,8 @@ if (empty($errors)) {
 if (empty($errors)) {
 	$qReadSettings = "SELECT name, val AS value FROM remGPC_Settings";
 	$rSettings = dBase_Ask_Database($qReadSettings, $cid);
-	if (is_array($cid) and $cid[0] === false) {
-		$errors[] = $cid[1];
+	if ($rSettings === false) {
+		$errors[] = mysqli_error($cid);
 	} else {
 		foreach ($rSettings as $line) {
 			$settings[$line['name']] = $line['value'];
